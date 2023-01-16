@@ -16,7 +16,12 @@ source(here("InstantiateStudyCohorts.R"))
 info(logger, 'GOT STUDY COHORTS')
 
 # Count cohorts
-FC_counts <- cdm$lcstudyathon_fc_klg %>% group_by(cohort_definition_id) %>% tally()
+# FC_counts <- cdm$lcstudyathon_fc_klg %>% group_by(cohort_definition_id) %>% tally()
+longcovidCounts <- cdm[[cohort_table_name]] %>% 
+  group_by(cohort_definition_id) %>% 
+  tally() %>% 
+  collect() %>% 
+  right_join(FC_cohorts, by = c("cohort_definition_id"="cohortId")) %>% mutate(n = as.numeric(n)) %>% mutate(n = if_else(is.na(n), 0, n)) %>% select(cohortName,n)
 info(logger, 'GOT COUNTS')
 
 # Create zip file
@@ -28,18 +33,10 @@ if (!dir.exists(tempDir)) {
   tempDirCreated <- TRUE
 }
 
-write.csv(FC_counts,
+write.csv(longcovidCounts,
           file = file.path(
             tempDir,
             paste0(db.name,"_counts.csv")
-          ),
-          row.names = FALSE
-)
-
-write.csv(FC_cohorts[,1:2],
-          file = file.path(
-            tempDir,
-            paste0(db.name, "_cohort_ids.csv")
           ),
           row.names = FALSE
 )
