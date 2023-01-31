@@ -3,7 +3,7 @@ info(logger, "- getting cohort definitions")
 
 FC_cohorts <- CDMConnector::readCohortSet(here(
   "JSONS",
-  "Feasibility_counts_cohorts"
+  "All_cohorts"
 ))
 
 info(logger, "- getting cohorts")

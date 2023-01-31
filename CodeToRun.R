@@ -1,5 +1,5 @@
 # This is the only code the user should interact with
-# Gets the Feasibility Counts for the Studyathon Long Covid Project
+# Gets the Feasibility Counts for the Studyathon Long Covid and PASC Project
 
 # Required packages
 library("DBI")

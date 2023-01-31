@@ -12,16 +12,15 @@ level(logger) <- "INFO"
 
 # Instantiate study cohorts
 info(logger, 'INSTANTIATING STUDY COHORTS')
-source(here("InstantiateStudyCohorts.R"))
+source(here("InstantiateStudyCohorts.R"), local = TRUE)
 info(logger, 'GOT STUDY COHORTS')
 
 # Count cohorts
-# FC_counts <- cdm$lcstudyathon_fc_klg %>% group_by(cohort_definition_id) %>% tally()
 longcovidCounts <- cdm[[cohort_table_name]] %>% 
   group_by(cohort_definition_id) %>% 
   tally() %>% 
   collect() %>% 
-  right_join(FC_cohorts, by = c("cohort_definition_id"="cohortId")) %>% mutate(n = as.numeric(n)) %>% mutate(n = if_else(is.na(n), 0, n)) %>% select(cohortName,n)
+  right_join(FC_cohorts, by = c("cohort_definition_id"="cohortId")) %>% mutate(n = as.numeric(n)) %>% mutate(n = if_else(is.na(n), 0, n)) %>% mutate(n = ifelse(n <= 5, NA, n)) %>% select(cohortName,n)
 info(logger, 'GOT COUNTS')
 
 # Create zip file
