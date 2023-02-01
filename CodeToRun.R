@@ -11,7 +11,7 @@ library("here")
 library("log4r")
 library("zip")
 
-# Database name or acronym (e.g. for CPRD AURUM use "CPRUAurum")
+# Database name or acronym (e.g. for CPRD AURUM use "CPRDAurum")
 db.name <- "..."
 
 # Name of the output folder to save the results. Change to "output" or any other desired path
