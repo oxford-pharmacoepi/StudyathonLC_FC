@@ -29,7 +29,7 @@ longcovidCounts <- cdm[[cohort_table_name]] %>%
   group_by(cohort_definition_id) %>% 
   tally() %>% 
   collect() %>% 
-  right_join(FC_cohorts, by = c("cohort_definition_id"="cohortId")) %>% mutate(n = as.numeric(n)) %>% mutate(n = if_else(is.na(n), 0, n)) %>% mutate(n = ifelse(n <= 5, NA, n)) %>% select(cohortName,n)
+  right_join(FC_cohorts, by = c("cohort_definition_id")) %>% mutate(n = as.numeric(n)) %>% mutate(n = if_else(is.na(n), 0, n)) %>% mutate(n = ifelse(n <= 5, NA, n)) %>% select(cohort_name,n)
 info(logger, 'GOT COUNTS')
 
 # Export csv
